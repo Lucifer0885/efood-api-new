@@ -9,6 +9,17 @@ use App\Helpers\Device;
 
 class AuthController extends Controller
 {
+    public function me(Request $request)
+    {
+        return response()->json([
+            'success' => true,
+            'message' => 'User retrieved',
+            'data' => [
+                'user' => $request->user()
+            ]
+        ]);
+    }
+
     public function register(Request $request){
         $fields = $request->validate([
             'name' => 'required|string|max:255',
