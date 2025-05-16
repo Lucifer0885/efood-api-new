@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\Device;
 
-abstract class AuthController extends Controller
+class AuthController extends Controller
 {
     public function register(Request $request){
         $fields = $request->validate([
