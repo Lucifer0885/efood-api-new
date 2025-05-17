@@ -8,6 +8,17 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/roles', function () {
+    $roles = \App\Models\Role::all();
+
+    return response()->json([
+        "success" => true,
+        "data" => [
+            "roles" => $roles,
+        ]
+    ]);
+});
+
 //  Load the routes for each module on specific path
 
 Route::prefix('admin')->name('admin')->group(base_path('routes/admin.php'));
