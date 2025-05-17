@@ -10,6 +10,6 @@ Route::get('/', function () {
 
 Route::prefix('auth')->middleware('setAuthRole:merchant')->group(base_path('routes/auth.php'));
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'checkRole:merchant'])->group(function () {
     
 });
