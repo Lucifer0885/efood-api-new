@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\Device;
+use App\Enums\RoleCode;
 
 class AuthController extends Controller
 {
@@ -66,6 +67,16 @@ class AuthController extends Controller
             ], 401);
         }
 
+        if ($request->role){
+            $role = $user->roles()->where('role_id', RoleCode::{$request->role})->first();
+            if (!$role){
+                return response()->json([
+                    'success'=> false,
+                    'message' => 'Unauthorized',
+                ], 401);
+            }
+        }
+
         $token = $user->createToken(Device::tokenName())->plainTextToken;
 
         $response = [
@@ -74,6 +85,7 @@ class AuthController extends Controller
             'data'=> [
                 'user' => $user,
                 'token' => $token,
+                'role' => $request->role,
             ]
         ];
 
