@@ -16,6 +16,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ->controller(UserController::class)
         ->group(function(){
             Route::get("me", 'me');
+            Route::get("addresses", 'addresses');
             Route::get("tokens", 'tokens');
             Route::delete("revoke-all-tokens", 'revokeAllTokens');
         });
