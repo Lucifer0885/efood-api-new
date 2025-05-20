@@ -9,8 +9,8 @@ class StoreController extends Controller
 {
     public function index(Request $request)
     {
-        $lat = $request->coordinates->latitude;
-        $lng = $request->coordinates->longitude;
+        $lat = $request->coordinates['latitude'];
+        $lng = $request->coordinates['longitude'];
 
         $stores = Store::query()
             // ->select(['id', 'name', 'description', 'address_id', 'category_id'])
@@ -22,6 +22,8 @@ class StoreController extends Controller
             'success' => true,
             'message' => 'Stores retrieved successfully',
             'data' => [
+                'latitude'=> $lat,
+                'longitude'=> $lng,
                 'stores' => $stores
             ]
         ];
