@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return response()->json([
@@ -11,6 +13,9 @@ Route::get('/', function () {
 });
 
 Route::prefix('auth')->group(base_path('routes/auth.php'));
+
+Route::get('categories',[CategoryController::class, 'index']);
+Route::get('stores',[StoreController::class,'index']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix("users")
