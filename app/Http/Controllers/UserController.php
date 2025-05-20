@@ -12,19 +12,6 @@ class UserController extends Controller
         return response()->json($request->user());
     }
 
-    public function addresses(Request $request)
-    {
-        $addresses = $request->user()->addresses()->get();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Addresses retrieved successfully',
-            'data'=> [
-                'addresses'=> $addresses
-            ]
-        ], 200);
-    }
-
     public function tokens(Request $request)
     {
         $tokens = [];
