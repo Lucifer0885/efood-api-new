@@ -17,7 +17,7 @@ class Store extends Model
         'latitude',
         'longitude',
         'working_hours',
-        'delivery_range',
+        'delivery_range', //km
         'active'
     ];
 
