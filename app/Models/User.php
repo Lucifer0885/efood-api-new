@@ -11,8 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Address;
 use App\Models\Role;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+use App\Enums\RoleCode;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
@@ -26,6 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
     ];
 
     /**
@@ -49,6 +53,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+        public function canAccessPanel(Panel $panel): bool
+    {
+        $panel_id = $panel->getId();
+        if ($panel_id === "admin") {
+            $role = $this->roles()->where('role_id', RoleCode::{$panel_id})->first();
+            return !is_null($role);
+        }elseif ($panel_id === "merchant") {
+            $role = $this->roles()->where('role_id', RoleCode::{$panel_id})->first();
+            return !is_null($role);
+        }
+        return false;
     }
 
     public function roles(): BelongsToMany

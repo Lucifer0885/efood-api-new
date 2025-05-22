@@ -33,35 +33,35 @@ class StoreController extends Controller
             )
             ->addSelect(DB::raw('distance(stores.latitude, stores.longitude, ' . $lat . ', ' . $lng . ') as distance'))
             ->where('active', true)
-            ->whereRaw("JSON_EXTRACT(JSON_EXTRACT(working_hours, '$[" . date('w') . "]'), '$.start') <= TIME_FORMAT(NOW(), '%H:%i')")
-            ->whereRaw("JSON_EXTRACT(JSON_EXTRACT(working_hours, '$[" . date('w') . "]'), '$.end') >= TIME_FORMAT(NOW(), '%H:%i')")
+            // ->whereRaw("JSON_EXTRACT(JSON_EXTRACT(working_hours, '$[" . date('w') . "]'), '$.start') <= TIME_FORMAT(NOW(), '%H:%i')")
+            // ->whereRaw("JSON_EXTRACT(JSON_EXTRACT(working_hours, '$[" . date('w') . "]'), '$.end') >= TIME_FORMAT(NOW(), '%H:%i')")
             ->whereRaw('distance(stores.latitude, stores.longitude, ' . $lat . ', ' . $lng . ') <= stores.delivery_range');
 
         /* Filter by categories */
-        // if ($request->has('categories.0')) {
-        //     $query->whereHas('categories', function ($subQuery) use ($request) {
-        //         $subQuery->whereIn('categories.id', $request->categories);
-        //     });
-        // }
+        if ($request->has('categories.0')) {
+            $query->whereHas('categories', function ($subQuery) use ($request) {
+                $subQuery->whereIn('categories.id', $request->categories);
+            });
+        }
 
         // /* Sorting */
-        // switch ($request->sort) {
-        //     case 'distance':
-        //         $query->orderBy('distance');
-        //         break;
-        //     case '-distance':
-        //         $query->orderByDesc('distance');
-        //         break;
-        //     case 'minimum_cart_value':
-        //         $query->orderBy('minimum_cart_value');
-        //         break;
-        //     case '-minimum_cart_value':
-        //         $query->orderByDesc('minimum_cart_value');
-        //         break;
-        //     default:
-        //         $query->orderBy('distance');
-        //         break;
-        // }
+        switch ($request->sort) {
+            case 'distance':
+                $query->orderBy('distance');
+                break;
+            case '-distance':
+                $query->orderByDesc('distance');
+                break;
+            case 'minimum_cart_value':
+                $query->orderBy('minimum_cart_value');
+                break;
+            case '-minimum_cart_value':
+                $query->orderByDesc('minimum_cart_value');
+                break;
+            default:
+                $query->orderBy('distance');
+                break;
+        }
 
         $stores = $query->get();
 
