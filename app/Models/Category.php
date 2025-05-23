@@ -16,7 +16,9 @@ class Category extends Model implements HasMedia
 
     protected $fillable = ['name'];
 
-    protected $appends = ['icon'];
+    // protected $appends = ['icon'];
+
+    protected $hidden = ['pivot'];
 
     public function stores(): BelongsToMany
     {
