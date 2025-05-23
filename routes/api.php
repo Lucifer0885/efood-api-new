@@ -1,10 +1,20 @@
 <?php
 
+use App\Mail\TestMail;
+use \Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return response()->json([
         'message' => 'Welcome to the API',
+    ]);
+});
+Route::get('/test-email', function () {
+
+    Mail::to('info@pag.gr')->send( new TestMail());
+
+    return response()->json([
+        'message' => 'Email sent successfully',
     ]);
 });
 
