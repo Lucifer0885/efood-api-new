@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('minimum_cart_value', 4,2)->nullable();
             $table->decimal('latitude',10,8);
             $table->decimal('longitude',11,8);
-            $table->json('working_hours');
+            $table->json('working_hours')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
         });

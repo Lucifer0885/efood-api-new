@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,7 +15,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use App\Enums\RoleCode;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
@@ -54,7 +54,6 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
         ];
     }
-
         public function canAccessPanel(Panel $panel): bool
     {
         $panel_id = $panel->getId();
@@ -62,8 +61,9 @@ class User extends Authenticatable implements FilamentUser
             $role = $this->roles()->where('role_id', RoleCode::{$panel_id})->first();
             return !is_null($role);
         }elseif ($panel_id === "merchant") {
-            $role = $this->roles()->where('role_id', RoleCode::{$panel_id})->first();
-            return !is_null($role);
+            // $role = $this->roles()->where('role_id', RoleCode::{$panel_id})->first();
+            // return !is_null($role);
+            return true;
         }
         return false;
     }

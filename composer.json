@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "arbermustafa/filament-locationpickr-field": "2.0.0",
         "filament/filament": "3.3",
         "filament/spatie-laravel-media-library-plugin": "^3.3",
         "laravel/framework": "^12.0",

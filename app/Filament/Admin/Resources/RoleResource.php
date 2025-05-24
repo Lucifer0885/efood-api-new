@@ -2,9 +2,9 @@
 
 namespace App\Filament\Admin\Resources;
 
-use App\Filament\Admin\Resources\CategoryResource\Pages;
-use App\Filament\Admin\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
+use App\Filament\Admin\Resources\RoleResource\Pages;
+use App\Filament\Admin\Resources\RoleResource\RelationManagers;
+use App\Models\Role;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,30 +12,24 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
-class CategoryResource extends Resource
+class RoleResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Role::class;
+
+    protected static ?string $navigationGroup = 'Users';
 
     protected static ?int $navigationSort = 3;
 
-    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
-
-    protected static ?string $navigationGroup = 'Operations';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                ->label('Category Name')
-                ->required()
-                ->maxLength(255)
-                ->translatable(),
-            SpatieMediaLibraryFileUpload::make('icon')
-                ->collection('icon')
+                    ->required()
+                    ->translatable(),
             ]);
     }
 
@@ -43,13 +37,19 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                SpatieMediaLibraryImageColumn::make('icon')
-                    ->collection('icon')
-                    ->label('Icon'),
+                Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Category Name')
+                    ->label('Role Name')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -74,9 +74,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListRoles::route('/'),
+            'create' => Pages\CreateRole::route('/create'),
+            'edit' => Pages\EditRole::route('/{record}/edit'),
         ];
     }
 }
