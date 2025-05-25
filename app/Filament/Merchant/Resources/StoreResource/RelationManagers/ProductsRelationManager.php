@@ -93,7 +93,8 @@ class ProductsRelationManager extends RelationManager
                     ->description(fn(Product $record) => $record->description),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Price')
-                    ->money('EUR')
+                    ->suffix(' €')
+                    // ->money('EUR')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('active')
