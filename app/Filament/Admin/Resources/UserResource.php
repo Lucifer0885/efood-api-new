@@ -54,8 +54,6 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('User Name')
                     ->sortable()
@@ -66,6 +64,9 @@ class UserResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\IconColumn::make('email_verified_at')
+                    ->label("Email Verified")
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('addresses_count')
                     ->counts('addresses')
                     ->label('Addresses'),

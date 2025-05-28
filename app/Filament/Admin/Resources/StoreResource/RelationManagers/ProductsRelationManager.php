@@ -46,7 +46,7 @@ class ProductsRelationManager extends RelationManager
                                 name: 'productCategory',
                                 titleAttribute: 'name',
                                 modifyQueryUsing: fn(Builder $query) => $query
-                                    ->whereRelation('store', 'user_id', auth()->id())
+                                    ->where("store_id", $this->getOwnerRecord()->id),
                             )
                             ->native(false)
                             ->preload()
