@@ -39,7 +39,10 @@ class AddressController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Address created'
+            'message' => 'Address created',
+            'data'=> [
+                'address' => $address->refresh()
+            ]
         ], 201);
     }
 

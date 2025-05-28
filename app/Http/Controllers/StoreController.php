@@ -65,6 +65,8 @@ class StoreController extends Controller
 
         $stores = $query->get();
 
+        $stores->each->append(['logo', 'cover']);
+
         $response = [
             'success' => true,
             'message' => 'Stores retrieved successfully',

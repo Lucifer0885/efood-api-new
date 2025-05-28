@@ -12,8 +12,10 @@ class CategoryController extends Controller
     {
         $categories = Category::query()
             ->select(['id', 'name'])
-            ->orderBy('name')
+            // ->orderBy('name')
             ->get();
+
+        $categories->each->append('icon');
 
         $response = [
             'success' => true,
