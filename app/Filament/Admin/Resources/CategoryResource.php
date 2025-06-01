@@ -35,7 +35,6 @@ class CategoryResource extends Resource
                 ->maxLength(255)
                 ->translatable(),
             SpatieMediaLibraryFileUpload::make('icon')
-                ->disk('s3')
                 ->collection('icon')
             ]);
     }
