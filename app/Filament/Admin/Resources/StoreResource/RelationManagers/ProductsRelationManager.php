@@ -30,7 +30,7 @@ class ProductsRelationManager extends RelationManager
                             ->required()
                             ->maxLength(255)
                             ->translatable(),
-                        Forms\Components\TextArea::make('description')
+                        Forms\Components\Textarea::make('description')
                             ->label('Description')
                             ->maxLength(255)
                             ->translatable(),
