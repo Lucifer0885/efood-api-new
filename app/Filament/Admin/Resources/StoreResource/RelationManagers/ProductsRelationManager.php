@@ -61,6 +61,7 @@ class ProductsRelationManager extends RelationManager
                     ->description('Add photos.')
                     ->schema([
                         SpatieMediaLibraryFileUpload::make('gallery')
+                            ->disk('s3')
                             ->collection('gallery')
                             ->multiple()
                             ->reorderable(),
