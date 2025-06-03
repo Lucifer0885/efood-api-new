@@ -19,7 +19,7 @@ class AuthController extends Controller
             'data' => [
                 'user' => $request->user()
             ]
-        ]);
+        ], 200);
     }
 
     public function register(Request $request)
