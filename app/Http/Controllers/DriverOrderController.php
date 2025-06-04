@@ -82,7 +82,7 @@ class DriverOrderController extends Controller
 
         $orders->each(function ($order) use ($minPerStoreOrder, $minPerItem) {
             $order->store->append('logo', 'cover');
-            $preparation_time = ($order->store->orders_count * $minPerStoreOrder) + ($order->products->sum('quantity') * $minPerItem);Add commentMore actions
+            $preparation_time = $order->store->orders_count * $minPerStoreOrder + $order->products->sum('quantity') * $minPerItem;
             $order->preparation_at = $order->created_at->addMinutes($preparation_time);
         });
 
