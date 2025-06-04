@@ -19,14 +19,26 @@ class OrderController extends Controller
     {
         $user = $request->user();
         $orders = $user->orders()
-            ->with(['store', 'address', 'products'])
+            ->with([
+                'products.product',
+                'store'
+            ])
             ->orderByDesc('created_at')
             ->get();
+
+        foreach ($orders as $order) {
+            foreach ($order->products as $product) {
+                $product->product->append('mainImage');
+            }
+            $order->store->append('logo');
+        }
 
         $response = [
             'success' => true,
             'message' => "Orders retrieved successfully for user: {$user->name}",
-            'data' => $orders,
+            'data' => [
+                'orders' => $orders,
+            ],
         ];
 
         return response()->json($response, 200);
@@ -147,8 +159,8 @@ class OrderController extends Controller
 
         $vivaRedirectUrl = null;
         if ($order->payment_method === 'card') {
-            // $order->createVivaCode();
-            // $vivaRedirectUrl = $order->getVivaUrl();
+            $order->createVivaCode();
+            $vivaRedirectUrl = $order->getVivaUrl();
         }
 
         $response = [
@@ -165,7 +177,13 @@ class OrderController extends Controller
     public function show(Request $request, $id)
     {
         $user = $request->user();
-        $order = $user->orders()->find($id);
+        $order = $user->orders()
+            ->with([
+                'products.product',
+                'store',
+                'address'
+            ])
+            ->find($id);
 
         if (!$order) {
             return response()->json([
@@ -174,10 +192,17 @@ class OrderController extends Controller
             ], 404);
         }
 
+        foreach ($order->products as $product) {
+            $product->product->append('mainImage');
+        }
+        $order->store->append('logo');
+
         $response = [
             'success' => true,
             'message' => "Order retrieved successfully for user: {$user->name}",
-            'data' => $order,
+            'data' => [
+                'order' => $order,
+            ],
         ];
 
         return response()->json($response, 200);
