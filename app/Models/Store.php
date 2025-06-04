@@ -35,7 +35,7 @@ class Store extends Model implements HasMedia
         'active' => 'boolean',
     ];
 
-    protected $hidden = ['pivot'];
+    protected $hidden = ['pivot', 'media'];
 
     // protected $appends = ['logo', 'cover'];
 
@@ -67,12 +67,12 @@ class Store extends Model implements HasMedia
     }
 
     public function getLogoAttribute(){
-        $logo = $this->getFirstMedia('logo');
+        $logo = $this->getFirstMediaUrl('logo');
         return $logo ?? 'https://png.pngtree.com/png-clipart/20190614/original/pngtree-vector-list-icon-png-image_3785548.jpg';
     }
 
     public function getCoverAttribute(){
-        $cover = $this->getFirstMedia('cover');
+        $cover = $this->getFirstMediaUrl('cover');
         return $cover ?? 'https://png.pngtree.com/png-clipart/20190614/original/pngtree-vector-list-icon-png-image_3785548.jpg';
     }
 
