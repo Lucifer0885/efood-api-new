@@ -23,4 +23,9 @@ class Address extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getfullAddressAttribute()
+    {
+        return "{$this->street} {$this->number}, {$this->city}, {$this->postal_code}";
+    }
 }
