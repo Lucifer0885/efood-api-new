@@ -16,7 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(\App\Http\Middleware\CoordinatesDetector::class);
         $middleware->alias([
             'setAuthRole' => \App\Http\Middleware\SetAuthRole::class,
-            'checkRole' => \App\Http\Middleware\CheckRole::class
+            'checkRole' => \App\Http\Middleware\CheckRole::class,
+            'auth.socket'=> \App\Http\Middleware\SocketAuth::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
