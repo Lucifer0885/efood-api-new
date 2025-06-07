@@ -68,6 +68,41 @@ class AddressController extends Controller
         return response()->json($response);
     }
 
+     public function update(Request $request, $id)
+    {
+        $address = $request->user()->addresses()->find($id);
+        if (!$address) {
+            $response = [
+                'success' => false,
+                'message' => 'Address not found',
+            ];
+            return response()->json($response, 404);
+        }
+
+        $fields = $request->validate([
+            'street' => 'required',
+            'number' => '',
+            'city' => '',
+            'postal_code' => '',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'phone' => '',
+            'floor' => '',
+            'door' => '',
+        ]);
+        $address->update($fields);
+
+        $response = [
+            'success' => true,
+            'message' => 'Address updated successfully',
+            'data' => [
+                'address' => $address
+            ]
+        ];
+
+        return response()->json($response);
+    }
+
     public function destroy(Request $request, $id)
     {
         $address = $request->user()->addresses()->find($id);

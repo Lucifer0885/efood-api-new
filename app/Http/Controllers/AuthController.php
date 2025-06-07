@@ -93,15 +93,37 @@ class AuthController extends Controller
                 ], 401);
             }
         }
-
         $token = $user->createToken(Device::tokenName())->plainTextToken;
 
         $response = [
             'success' => true,
-            'message' => 'User logged in successfully',
+            'message' => 'User logged in',
             'data' => [
                 'user' => $user,
-                'token' => $token,
+                'token' => $token
+            ]
+        ];
+
+        return response()->json($response);
+    }
+    public function update(Request $request)
+    {
+        $fields = $request->validate([
+            'name' => 'required|string',
+            'phone' => 'nullable|string|min:10',
+        ]);
+
+        $user = $request->user();
+
+        $user->name = $fields['name'];
+        $user->phone = $fields['phone'];
+        $user->save();
+
+        $response = [
+            'success' => true,
+            'message' => 'User updated successfully',
+            'data' => [
+                'user' => $user,
             ]
         ];
 
@@ -115,5 +137,44 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Logged out',
         ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $fields = $request->validate([
+            'current_password' => 'required|string|min:6',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $user = $request->user();
+
+        if (!Hash::check($fields['current_password'], $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Current password is incorrect',
+                'data' => []
+            ], 401);
+        }
+
+        if ($fields['current_password'] === $fields['password']) {
+            return response()->json([
+                'success' => false,
+                'message' => 'New password cannot be the same as current password',
+                'data' => []
+            ], 400);
+        }
+
+        $user->password = bcrypt($fields['password']);
+        $user->save();
+
+        $response = [
+            'success' => true,
+            'message' => 'User logged in successfully',
+            'data' => [
+                'user' => $user,
+            ]
+        ];
+
+        return response()->json($response, 200);
     }
 }
