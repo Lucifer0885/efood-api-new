@@ -43,6 +43,8 @@ class Order extends Model
         // 'status' => OrderStatus::class,
     ];
 
+    protected $guarded = [];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

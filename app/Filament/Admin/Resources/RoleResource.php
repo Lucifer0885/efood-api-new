@@ -19,7 +19,7 @@ class RoleResource extends Resource
 
     protected static ?string $navigationGroup = 'Users';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
